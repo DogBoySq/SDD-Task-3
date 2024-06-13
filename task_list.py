@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, simpledialog, messagebox
+from tkinter import ttk, simpledialog, messagebox, filedialog
 import datetime
 
 class TaskListView(tk.Frame):
@@ -19,11 +19,10 @@ class TaskListView(tk.Frame):
 
     def create_widgets(self):
         # Create and pack the widgets for the task list view.
-        self.tree = ttk.Treeview(self, columns=('Description', 'Due Date', 'Countdown', 'Remaining Seconds'), show='headings')
+        self.tree = ttk.Treeview(self, columns=('Description', 'Due Date', 'Countdown'), show='headings')
         self.tree.heading('Description', text='Description', command=lambda: self.sort_column('Description', False))
         self.tree.heading('Due Date', text='Due Date', command=lambda: self.sort_column('Due Date', False))
         self.tree.heading('Countdown', text='Countdown', command=lambda: self.sort_column('Countdown', False))
-        self.tree.heading('Remaining Seconds', text='Remaining Seconds', command=lambda: self.sort_column('Remaining Seconds', False))
         self.tree.pack(fill='both', expand=True, padx=10, pady=10)
 
         self.button_frame = tk.Frame(self)
@@ -86,9 +85,6 @@ class TaskListView(tk.Frame):
             items.sort(key=lambda x: datetime.datetime.strptime(x[0], "%Y-%m-%d %H:%M:%S"), reverse=reverse)
         elif col == 'Countdown':
             items.sort(key=lambda x: self.parse_countdown(x[0]), reverse=reverse)
-        elif col == 'Remaining Seconds':
-            items.sort(key=lambda x: x[1], reverse=reverse)
-
         for index, (val, k) in enumerate(items):
             self.tree.move(k, '', index)
 
@@ -128,7 +124,7 @@ class TaskListView(tk.Frame):
                 self.task_manager.add_task(description, due_date)
                 self.load_tasks()  # Reload tasks to reflect changes
             except ValueError:
-                messagebox.showerror("Invalid Date Format", "Please enter the date in the format YYYY-MM-DD HH:MM:SS")
+                messagebox.showerror("Invalid Date Format", "Please enter the date and time in the format YYYY-MM-DD HH:MM:SS")
 
     def delete_task(self):
         # Delete the selected task after confirming with the user.
