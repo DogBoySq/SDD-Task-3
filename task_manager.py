@@ -12,23 +12,23 @@ class TaskManager:
     def load_tasks(self):
         # Load tasks from the file.
         # Returns:
-        #     list: A list of tasks, where each task is a dictionary with 'description' and 'due_date' keys.
-        tasks = []
+        #     list: A list of tasks with 'description' and 'due_date'.
+        tasks = []  # List to store tasks
         try:
-            with open(self.file_path, 'r') as file:
-                for line in file:
-                    description, due_date_str = line.strip().split('|')
-                    due_date = datetime.datetime.strptime(due_date_str, "%Y-%m-%d %H:%M:%S")
-                    tasks.append({'description': description, 'due_date': due_date})
-        except FileNotFoundError:
-            pass
-        return tasks
+            with open(self.file_path, 'r') as file:  # Open the file for reading
+                for line in file:  # Read each line in the file
+                    description, due_date_str = line.strip().split('|')  # Split line into description and due date
+                    due_date = datetime.datetime.strptime(due_date_str, "%Y-%m-%d %H:%M:%S")  # Convert due date to datetime
+                    tasks.append({'description': description, 'due_date': due_date})  # Add task to the list
+        except FileNotFoundError:  # If the file doesn't exist
+            pass  # Do nothing
+        return tasks  # Return the list of tasks
 
     def save_tasks(self):
         # Save tasks to the file.
-        with open(self.file_path, 'w') as file:
-            for task in self.tasks:
-                file.write(f"{task['description']}|{task['due_date'].strftime('%Y-%m-%d %H:%M:%S')}\n")
+        with open(self.file_path, 'w') as file:  # Open the file for writing
+            for task in self.tasks:  # For each task in the list
+                file.write(f"{task['description']}|{task['due_date'].strftime('%Y-%m-%d %H:%M:%S')}\n")  # Write task to the file
 
     def add_task(self, description, due_date):
         # Add a new task.
