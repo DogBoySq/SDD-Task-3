@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, simpledialog, messagebox, filedialog
+from tkinter import ttk, simpledialog, messagebox
 import datetime
 
 class TaskListView(tk.Frame):
@@ -124,7 +124,7 @@ class TaskListView(tk.Frame):
                 self.task_manager.add_task(description, due_date)
                 self.load_tasks()  # Reload tasks to reflect changes
             except ValueError:
-                messagebox.showerror("Invalid Date Format", "Please enter the date and time in the format YYYY-MM-DD HH:MM:SS")
+                messagebox.showerror("Invalid Date Format", "Please enter the date and time in the format ""YYYY-MM-DD HH:MM:SS")
 
     def delete_task(self):
         # Delete the selected task after confirming with the user.
@@ -137,6 +137,8 @@ class TaskListView(tk.Frame):
                 due_date = datetime.datetime.strptime(item_values[1], "%Y-%m-%d %H:%M:%S")
                 self.task_manager.delete_task(description, due_date)
                 self.load_tasks()  # Reload tasks to reflect changes
+        else:
+            messagebox.showerror("No Task Selected", "Please select a task to delete.")
 
     def start_countdown_update(self):
         # Start the countdown update process.
